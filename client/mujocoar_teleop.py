@@ -36,12 +36,11 @@ class FrankaClient:
 
 # Connect to the server
 interface = FrankaClient(
-    ip='localhost',
-    port=4242
+    server_ip='10.228.255.79',
 )
 
-connector = MujocoARConnector(port=8888, debug=False) 
-connector.start()
+# connector = MujocoARConnector(port=8888, debug=False) 
+# connector.start()
 
 freq = 200
 Kx_scale = 1.0
@@ -52,15 +51,15 @@ Kxd = (np.array([37.0, 37.0, 37.0, 2.0, 2.0, 2.0]) * 0.5)
 rate = RateLimiter(frequency=100, warn=False)
 
 # Pass Kx and Kxd as lists
-interface.start_cartesian_impedance(Kx=Kx, Kxd=Kxd)
+# interface.start_cartesian_impedance(Kx=Kx, Kxd=Kxd)
 
-start_rot = interface.get_ee_pose()[3:]
-start_rot_matrix = R.from_rotvec(start_rot).as_matrix()
+# start_rot = interface.get_ee_pose()[3:]
+# start_rot_matrix = R.from_rotvec(start_rot).as_matrix()
 
-start_pos = interface.get_ee_pose()[:3]
+# start_pos = interface.get_ee_pose()[:3]
 
-while connector.get_latest_data()["position"] is None:
-    pass
+# while connector.get_latest_data()["position"] is None:
+#     pass
 
 grasp = 0
 while True:
@@ -79,5 +78,6 @@ while True:
     # if connector.get_latest_data()["toggle"] != grasp:
     #     grasp = connector.get_latest_data()["toggle"]
     #     interface.update_gripper(grasp)
+    print(1)
     print(interface.get_ee_pose())
     rate.sleep()
