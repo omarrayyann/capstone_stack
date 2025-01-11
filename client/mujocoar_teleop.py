@@ -74,19 +74,20 @@ while connector.get_latest_data()["position"] is None:
 
 grasp = 0
 while True:
-    new_pos = start_pos.copy()
-    new_pos[0] = np.clip(new_pos[0] + connector.get_latest_data()["position"][0] * 0.7, start_pos[0] - 1.5, start_pos[0] + 1.5)
-    new_pos[1] = np.clip(new_pos[1] + connector.get_latest_data()["position"][1] * 0.7, start_pos[1] - 1.5, start_pos[1] + 1.5)
-    new_pos[2] = np.clip(new_pos[2] + connector.get_latest_data()["position"][2] * 0.7, start_pos[2] - 1.5, start_pos[2] + 1.5)
+    # new_pos = start_pos.copy()
+    # new_pos[0] = np.clip(new_pos[0] + connector.get_latest_data()["position"][0] * 0.7, start_pos[0] - 1.5, start_pos[0] + 1.5)
+    # new_pos[1] = np.clip(new_pos[1] + connector.get_latest_data()["position"][1] * 0.7, start_pos[1] - 1.5, start_pos[1] + 1.5)
+    # new_pos[2] = np.clip(new_pos[2] + connector.get_latest_data()["position"][2] * 0.7, start_pos[2] - 1.5, start_pos[2] + 1.5)
 
-    transformation_matrix = connector.get_latest_data()["rotation"]
-    transformed_matrix = transformation_matrix @ start_rot_matrix
-    transformed_rot_vec = R.from_matrix(transformed_matrix).as_rotvec()
+    # transformation_matrix = connector.get_latest_data()["rotation"]
+    # transformed_matrix = transformation_matrix @ start_rot_matrix
+    # transformed_rot_vec = R.from_matrix(transformed_matrix).as_rotvec()
 
-    updated_pose = np.concatenate([new_pos, transformed_rot_vec])
-    interface.update_desired_ee_pose(updated_pose)
-    data = connector.get_latest_data()
-    if connector.get_latest_data()["toggle"] != grasp:
-        grasp = connector.get_latest_data()["toggle"]
-        interface.update_gripper(grasp)
+    # updated_pose = np.concatenate([new_pos, transformed_rot_vec])
+    # interface.update_desired_ee_pose(updated_pose)
+    # data = connector.get_latest_data()
+    # if connector.get_latest_data()["toggle"] != grasp:
+    #     grasp = connector.get_latest_data()["toggle"]
+    #     interface.update_gripper(grasp)
+    print(interface.get_ee_pose())
     rate.sleep()
