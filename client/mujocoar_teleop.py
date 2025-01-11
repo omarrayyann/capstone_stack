@@ -4,48 +4,38 @@ import numpy as np
 from loop_rate_limiters import RateLimiter
 from mujoco_ar import MujocoARConnector
 
-class FrankaInterface:
-    def __init__(self, ip='localhost', port=4242):
-        self.server = zerorpc.Client(heartbeat=20)
-        self.server.connect(f"tcp://{ip}:{port}")
+class FrankaClient:
+    def __init__(self, server_ip):
+        self.client = zerorpc.Client()
+        self.client.connect(f"tcp://{server_ip}:4242")
 
     def get_ee_pose(self):
-        flange_pose = np.array(self.server.get_ee_pose())
-        tip_pose = flange_pose
-        return tip_pose
-    
+        return self.client.get_ee_pose()
+
     def get_joint_positions(self):
-        return np.array(self.server.get_joint_positions())
-    
-    def get_joint_velocities(self):
-        return np.array(self.server.get_joint_velocities())
+        return self.client.get_joint_positions()
 
-    def move_to_joint_positions(self, positions: np.ndarray, time_to_go: float):
-        self.server.move_to_joint_positions(positions.tolist(), time_to_go)
+    def move_to_joint_positions(self, positions, time_to_go):
+        self.client.move_to_joint_positions(positions, time_to_go)
 
-    def start_cartesian_impedance(self, Kx: np.ndarray, Kxd: np.ndarray):
-        self.server.start_cartesian_impedance(
-            Kx.tolist(),
-            Kxd.tolist()
-        )
-    
-    def update_desired_ee_pose(self, pose: np.ndarray):
-        self.server.update_desired_ee_pose(pose.tolist())
+    def start_cartesian_impedance(self, Kx, Kxd):
+        self.client.start_cartesian_impedance(Kx, Kxd)
+
+    def update_desired_ee_pose(self, pose):
+        self.client.update_desired_ee_pose(pose)
 
     def terminate_current_policy(self):
-        self.server.terminate_current_policy()
-
-    def close(self):
-        self.server.close()
+        self.client.terminate_current_policy()
 
     def get_gripper_width(self):
-        return self.server.get_gripper_width()
-    
+        return self.client.get_gripper_width()
+
     def update_gripper(self, flag):
-        self.server.update_gripper(flag)
-    
+        self.client.update_gripper(flag)
+
+
 # Connect to the server
-interface = FrankaInterface(
+interface = FrankaClient(
     ip='localhost',
     port=4242
 )

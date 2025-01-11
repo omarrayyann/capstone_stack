@@ -1,9 +1,9 @@
 import zerorpc
-from polymetis import RobotInterface
-from polymetis import GripperInterface
 import scipy.spatial.transform as st
 import numpy as np
 import torch
+import socket
+from polymetis import RobotInterface, GripperInterface
 
 class FrankaInterface:
     def __init__(self):
@@ -54,6 +54,13 @@ class FrankaInterface:
         elif flag == 0:
             desired_gripper = 0.085
         self.gripper.goto(width=desired_gripper, speed=0.1, force=500, blocking=False)
+
+
+# Get the server's IP address
+hostname = socket.gethostname()
+server_ip = socket.gethostbyname(hostname)
+
+print(f"Server is running on IP: {server_ip} and port: 4242")
 
 s = zerorpc.Server(FrankaInterface())
 s.bind("tcp://0.0.0.0:4242")
