@@ -1,3 +1,4 @@
+import netifaces as ni
 import zerorpc
 import scipy.spatial.transform as st
 import numpy as np
@@ -56,12 +57,18 @@ class FrankaInterface:
         self.gripper.goto(width=desired_gripper, speed=0.1, force=500, blocking=False)
 
 
+# Get all network interfaces
+interfaces = ni.interfaces()
+for iface in interfaces:
+    try:
+        # Get IPv4 address of the interface
+        addr = ni.ifaddresses(iface)[ni.AF_INET][0]['addr']
+        print(f"Interface {iface}: IP Address {addr}")
+    except KeyError:
+        # Skip interfaces without an IPv4 address
+        pass
+
 # Get the server's IP address
-hostname = socket.gethostname()
-server_ip = socket.gethostbyname(hostname)
-
-print(f"Server is running on IP: {server_ip} and port: 4242")
-
 s = zerorpc.Server(FrankaInterface())
 s.bind("tcp://0.0.0.0:4242")
-s.run()
+s.run() 
