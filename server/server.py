@@ -49,12 +49,8 @@ class FrankaInterface:
     def get_gripper_width(self):
         return self.gripper.get_state().width
     
-    def update_gripper(self, flag):
-        if flag == 1:
-            desired_gripper = 0.02
-        elif flag == 0:
-            desired_gripper = 0.085
-        self.gripper.goto(width=desired_gripper, speed=0.1, force=500, blocking=False)
+    def set_gripper_width(self, width):
+        self.gripper.goto(width=width, speed=0.1, force=500, blocking=False)
 
 
 # Get all network interfaces

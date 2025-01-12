@@ -7,7 +7,7 @@ from FrankaClient import FrankaClient
 
 # Connect to the server
 interface = FrankaClient(
-    server_ip='10.228.255.79',
+    server_ip='127.0.0.1',
 )
 
 # Start the AR connector
@@ -33,9 +33,11 @@ while connector.get_latest_data()["position"] is None:
 
 while True:
     
-    new_pos = start_pos + connector.get_latest_data()["position"] * 0.7
+    new_pos = start_pos + connector.get_latest_data()["position"] * 0.8
     # add safe bounds
 
+    # new_pos[2] = max(0.155, new_pos[2])
+    new_pos[2] = max(0.127, new_pos[2])
     transformation_matrix = connector.get_latest_data()["rotation"]
     transformed_matrix = transformation_matrix @ start_rot_matrix
     transformed_rot_vec = R.from_matrix(transformed_matrix).as_rotvec()
@@ -43,6 +45,11 @@ while True:
 
     interface.update_desired_ee_pose(updated_pose)
 
-    interface.update_gripper(connector.get_latest_data()["toggle"])
+    if connector.get_latest_data()["toggle"] is True:
+        interface.set_gripper_width(0.04)
+    else:
+        interface.set_gripper_width(0.085)
+
+    
 
     rate.sleep()

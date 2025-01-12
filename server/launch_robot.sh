@@ -3,7 +3,11 @@
 # Activating Conda Environment
 echo "Activating Conda Environment: polymetis-local"
 source $(conda info --base)/etc/profile.d/conda.sh
+
 conda activate polymetis-local
+# Disable Firewall
+echo "Disabling Firewall..."
+sudo ufw disable
 
 # Killing any Existing Servers
 echo "Killing any existing servers"

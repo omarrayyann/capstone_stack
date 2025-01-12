@@ -38,6 +38,6 @@ class FrankaClient:
     def get_gripper_width(self):
         return self.server.get_gripper_width()
     
-    def update_gripper(self, flag):
-        self.server.update_gripper(flag)
+    def set_gripper_width(self, width):
+        self.server.set_gripper_width(width)
     
