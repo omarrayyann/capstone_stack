@@ -1,0 +1,14 @@
+[2025-01-13 05:06:28,502][__main__][INFO] - Adding /home/franka/Desktop/fairo/polymetis/polymetis/build to $PATH
+[2025-01-13 05:06:28,624][polymetis.robot_client.executable_robot_client][INFO] - === Config: ===
+exec: franka_hand_client
+robot_ip: 172.16.0.2
+control_ip: 0.0.0.0
+control_port: 50052
+robot_client_metadata_path: /tmp/tmp2pxupmcd
+
+[2025-01-13 05:06:28,625][polymetis.robot_client.executable_robot_client][INFO] - === Executing client at /home/franka/Desktop/fairo/polymetis/polymetis/build/franka_hand_client ===
+[2025-01-13 05:06:32,551][grpc._common][ERROR] - Exception serializing message!
+Traceback (most recent call last):
+  File "/home/franka/conda/envs/polymetis-local/lib/python3.8/site-packages/grpc/_common.py", line 86, in _transform
+    return transformer(message)
+TypeError: descriptor 'SerializeToString' for 'google.protobuf.pyext._message.CMessage' objects doesn't apply to a 'NoneType' object

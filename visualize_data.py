@@ -5,9 +5,7 @@ import matplotlib.gridspec as gridspec
 # ---------------------------
 # Load the Data
 # ---------------------------
-
-# Update this filename to the desired npz file (e.g., "0.npz")
-npz_file = "/home/franka/Desktop/franka_stack/Data_Collection/data/0.npz"  # Change to your file as needed
+npz_file = "/home/franka/Desktop/franka_stack/data/50.npz"  # Change to your file as needed
 
 data = np.load(npz_file, allow_pickle=True)
 rgb_frames = data["rgb_frames"]         # Assumed shape: (N, H, W, C)
@@ -16,13 +14,13 @@ actions = data["actions"]               # Assumed shape: (N, 8)
 timestamps = data["timestamps"]         # Assumed shape: (N,)
 
 num_frames = rgb_frames.shape[0]
+current_frame = 0  # Keep track of the current frame index
 
 # ---------------------------
 # Setup the Figure and Subplots
 # ---------------------------
-
 plt.ion()  # Turn on interactive mode
-fig = plt.figure(figsize=(12, 4))
+fig = plt.figure(figsize=(12, 6))
 gs = gridspec.GridSpec(1, 3, width_ratios=[1, 1, 1])
 
 # Subplot for the RGB image
@@ -34,19 +32,18 @@ ax_rgb.axis("off")
 # Subplot for the Depth image
 ax_depth = plt.subplot(gs[1])
 ax_depth.set_title("Depth Frame")
-# If depth is single channel, use cmap.
 im_depth = ax_depth.imshow(depth_frames[0], cmap="gray")
 ax_depth.axis("off")
 
-# Subplot for the Action bar plot
+# Subplot for the Action graph (last dimension)
 ax_action = plt.subplot(gs[2])
-ax_action.set_title("Action (8-d)")
-# Draw a bar for each dimension; use indices 0..7.
-bar_container = ax_action.bar(np.arange(8), actions[0], color="skyblue")
+ax_action.set_title("Action (Last Dimension)")
+line, = ax_action.plot([], [], color="skyblue")
 ax_action.set_ylim(np.min(actions) - 0.1, np.max(actions) + 0.1)
-ax_action.set_xticks(np.arange(8))
-ax_action.set_xticklabels([f"{i}" for i in range(8)])
-ax_action.set_ylabel("Value")
+ax_action.set_xlim(0, num_frames)
+ax_action.set_xlabel("Frame")
+ax_action.set_ylabel("Action Value (last dimension)")
+ax_action.grid(True)
 
 plt.tight_layout()
 
@@ -60,32 +57,35 @@ def update_frame(i):
     # Update Depth image
     im_depth.set_data(depth_frames[i])
     
-    # Update Action bar plot
-    for bar, new_val in zip(bar_container, actions[i]):
-        bar.set_height(new_val)
+    # Update Action graph (using 3rd column as "last dimension")
+    line.set_data(np.arange(i + 1), actions[:i + 1, 2])  # Adjust index if needed
     
-    # Update the figure title with the timestamp (optional)
+    # Update the figure title with the timestamp
     fig.suptitle(f"Frame {i+1}/{num_frames} - Timestamp: {timestamps[i]:.2f}s", fontsize=14)
     plt.draw()
-    plt.pause(0.001)
+    plt.pause(0.001)  # Short pause to force the GUI event loop to process the update
 
 # ---------------------------
-# Iterate Through the Frames
+# Keyboard Event Callback
 # ---------------------------
-current_frame = 0
-update_frame(current_frame)
-
-print("Press the Right Arrow key in the figure window to advance one frame.")
-print("Close the figure window to exit.")
-
 def on_key(event):
     global current_frame
+    # Check if right arrow key is pressed
     if event.key == "right":
-        current_frame = (current_frame + 1) % num_frames  # cycle through
-        update_frame(current_frame)
+        if current_frame < num_frames:
+            update_frame(current_frame)
+            current_frame += 1
+        else:
+            print("Reached last frame.")
+    if event.key == "left":
+        if current_frame  > 0:
+            update_frame(current_frame)
+            current_frame -= 1
+        else:
+            print("Reached last frame.")
 
+# Connect the key press event to the callback function
 fig.canvas.mpl_connect("key_press_event", on_key)
 
-# Keep the plot open until closed by the user.
-plt.ioff()
-plt.show()
+# Show the plot window
+plt.show(block=True)

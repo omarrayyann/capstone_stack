@@ -16,6 +16,8 @@ def main():
             # Get the latest frames
             color_image, depth_image = camera.get_latest_frames()
 
+            # convert rgb to bgr
+
             if last_time is not None:
                 print(1/(time.time()-last_time))
             

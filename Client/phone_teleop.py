@@ -1,10 +1,12 @@
+import requests
 from scipy.spatial.transform import Rotation as R
 import numpy as np
 from loop_rate_limiters import RateLimiter
 from mujoco_ar import MujocoARConnector
 from FrankaClient import FrankaClient
+import time
 
-rotated_z_axis = False
+infront_of_robot = True
 
 # Connect to the server
 interface = FrankaClient(
@@ -32,14 +34,26 @@ start_pos = interface.get_ee_pose()[:3]
 while connector.get_latest_data()["position"] is None:
     pass
 
+last_episode_stop = None
+
 while True:
+
+    phone_pose = np.identity(4)
+    phone_pose[:3, :3] = connector.get_latest_data()["rotation"]
+    phone_pose[:3, 3] = connector.get_latest_data()["position"]
     
-    new_pos = start_pos + connector.get_latest_data()["position"] * 0.8
+    if infront_of_robot:
+        z_fix_pose = np.identity(4)
+        z_fix_pose[:3, :3] = R.from_euler('z', np.pi).as_matrix()
+        phone_pose = z_fix_pose @ phone_pose
+        phone_pose = phone_pose @ z_fix_pose
+    
+    new_pos = start_pos + phone_pose[0:3,3]  * 0.8
     # # add safe bounds
 
     # new_pos[2] = max(0.155, new_pos[2])
     new_pos[2] = max(0.127, new_pos[2])
-    transformation_matrix = connector.get_latest_data()["rotation"]
+    transformation_matrix = phone_pose[:3, :3]
     transformed_matrix = transformation_matrix @ start_rot_matrix
     transformed_rot_vec = R.from_matrix(transformed_matrix).as_rotvec()
     updated_pose = np.concatenate([new_pos, transformed_rot_vec])
@@ -50,6 +64,11 @@ while True:
         interface.set_gripper_width(0.055)
     else:
         interface.set_gripper_width(0.085)
+
+    if connector.get_latest_data()["button"] is True:
+        if last_episode_stop is None or time.time() - last_episode_stop > 5:
+            response = requests.post("http://localhost:5000/trigger")
+            last_episode_stop = time.time()
 
     
 

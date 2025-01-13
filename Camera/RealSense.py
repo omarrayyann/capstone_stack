@@ -60,6 +60,9 @@ class RealSense:
         # Convert the depth image to a 3-channel image so it can be stacked with the RGB image.
         depth_gray = cv2.cvtColor(depth_8bit, cv2.COLOR_GRAY2RGB)
 
+        # convert rgb to bgr
+        self.color_image = cv2.cvtColor(self.color_image, cv2.COLOR_RGB2BGR)
+
         # Stack the RGB image (which is already in RGB order) and the processed depth image horizontally.
         combined_images = np.hstack((self.color_image, depth_gray))
         return combined_images
