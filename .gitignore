@@ -2,3 +2,4 @@ server/outputs
 myenv
 data
 sample_data
+.*__pycache__.*
