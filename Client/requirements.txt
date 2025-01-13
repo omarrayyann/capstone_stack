@@ -1,5 +1,0 @@
-scipy
-zerorpc
-numpy
-loop-rate-limiters
-mujoco_ar
