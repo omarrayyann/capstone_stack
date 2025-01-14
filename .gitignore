@@ -3,3 +3,6 @@ myenv
 data
 sample_data
 /__pycache__/
+/VQ-BeT/outputs
+/VQ-BeT/wandb
+/VQ-BeT/wandb

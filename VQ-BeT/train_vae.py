@@ -9,7 +9,7 @@ import tqdm
 from torch.utils.data import DataLoader
 import wandb
 
-@hydra.main(version_base=None, config_path="config", config_name="jubail")
+@hydra.main(version_base=None, config_path="config", config_name="default")
 def main(cfg: DictConfig):
 
     # Initialize WandB
