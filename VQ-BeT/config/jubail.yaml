@@ -1,5 +1,5 @@
 save_path: "/scratch/olr7742/franka/capstone_stack/VQ-BeT/saved"
-device: "cpu"
+device: "cuda"
 
 train:
   batch_size: 64
@@ -19,7 +19,7 @@ vqvae:
   vqvae_n_embed: 32
   vqvae_groups: 4
   eval: true
-  device: "cpu"
+  device: "cuda"
   load_dir: null
   encoder_loss_multiplier: 1.0
   act_scale: 1.0

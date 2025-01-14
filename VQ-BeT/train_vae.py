@@ -26,6 +26,10 @@ def main(cfg: DictConfig):
     vqvae_model = instantiate(cfg.vqvae)
     dataset = instantiate(cfg.dataset)
 
+    if torch.cuda.device_count() > 1:
+        print(f"Using {torch.cuda.device_count()} GPUs.")
+        vqvae_model = torch.nn.DataParallel(vqvae_model)
+
     # Split dataset and create data loaders
     train_dataset, val_dataset = instantiate(cfg.split_dataset, dataset=dataset)
     train_loader = DataLoader(train_dataset, batch_size=cfg.train.batch_size, shuffle=True)
@@ -53,7 +57,7 @@ def main(cfg: DictConfig):
         print(f"Epoch {epoch}, Encoder Loss: {encoder_loss}, VQ Loss: {vq_loss_state}, Recon Loss: {vqvae_recon_loss}")
 
         if epoch % cfg.train.save_interval == 0:
-            state_dict = vqvae_model.state_dict()
+            state_dict = vqvae_model.module.state_dict() if torch.cuda.device_count() > 1 else vqvae_model.state_dict()
             torch.save(state_dict, os.path.join(save_path, "trained_vqvae.pt"))
 
     wandb.finish()
