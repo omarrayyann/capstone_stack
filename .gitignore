@@ -1,10 +1,14 @@
 server/outputs
 myenv
 data
-sample_data
 /__pycache__/
 /VQ-BeT/outputs
 /VQ-BeT/wandb
 /VQ-BeT/wandb
 /VQ-BeT/wandb
 VQ-BeT/saved
+/home/franka/Desktop/capstone_stack/Architectures/VQ-BeT/saved
+/Architectures/VQ-BeT/outputs
+/Architectures/VQ-BeT/wandb
+/VQ-BeT/wandb
+/Architectures/VQ-BeT/saved

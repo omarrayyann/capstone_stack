@@ -5,7 +5,7 @@ import matplotlib.gridspec as gridspec
 # ---------------------------
 # Load the Data
 # ---------------------------
-npz_file = "/home/franka/Desktop/capstone_stack/data/50.npz"  # Change to your file as needed
+npz_file = "/home/franka/Desktop/capstone_stack/Data/data/50.npz"  # Change to your file as needed
 
 data = np.load(npz_file, allow_pickle=True)
 rgb_frames = data["rgb_frames"]         # Assumed shape: (N, H, W, C)
