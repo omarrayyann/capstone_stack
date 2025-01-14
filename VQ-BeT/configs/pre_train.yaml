@@ -1,0 +1,49 @@
+dataset:
+  _target_: "dataset.FrankaDataset"
+  data_folder: "/home/franka/Desktop/capstone_stack/Data/sample_data"
+  sequence_length: 5
+  step_size: 2
+  frequency: 5
+
+split_dataset:
+  _target_: "dataset.split_dataset"
+  train_split: 0.95
+  
+save_path: "/home/franka/Desktop/capstone_stack/VQ-BeT/saved"
+
+seed: 42
+window_size: 5
+goal_window_size: 0
+batch_size: 1024
+epochs: 350
+eval_freq: 10
+eval_on_env_freq: 25
+num_env_evals: 5
+num_final_evals: 20
+num_final_eval_per_goal: 5
+action_window_size: 1
+
+device: cpu
+optim:
+  lr: 5.5e-5
+  weight_decay: 2e-4
+  betas: [0.9, 0.999]
+
+save_every: 10
+load_path: null
+
+vqvae_model:
+  _target_: vqvae.VqVae
+  obs_dim: 1024
+  input_dim_h: 1
+  input_dim_w: 8
+  n_latent_dims: 512
+  vqvae_n_embed: 24
+  vqvae_groups: 4
+  eval: false
+  device: ${device}
+  encoder_loss_multiplier: 1
+
+wandb:
+  project: "VQ-BeT"
+  run_name: "vqvae_training_run"
