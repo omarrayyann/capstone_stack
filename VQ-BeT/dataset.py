@@ -34,7 +34,7 @@ class FrankaDataset(Dataset):
 
             N = len(rgb_frames)
 
-            for i in range(self.step_size, N - (self.sequence_length * actual_step) - self.step_size + 1, actual_step):
+            for i in range(self.step_size, N - (self.sequence_length * actual_step) - self.step_size + 1, 1):
                 rgb_slice = rgb_frames[i:i + (self.sequence_length * actual_step):actual_step]
                 depth_slice = depth_frames[i:i + (self.sequence_length * actual_step):actual_step].astype(np.float32) / 1000.0  # Convert to meters
 

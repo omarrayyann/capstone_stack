@@ -50,7 +50,7 @@ def main(cfg: DictConfig):
             "epoch": epoch,
             "encoder_loss": encoder_loss.item(),
             "vq_loss_state": vq_loss_state.item(),
-            "reconstruction_loss": vqvae_recon_loss.item(),
+            "reconstruction_loss": vqvae_recon_loss,
             "epoch_loss": epoch_loss,
         })
 
