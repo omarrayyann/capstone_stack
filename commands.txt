@@ -1,0 +1,5 @@
+Conda Environments:
+
+conda activate polymetis-local
+conda activate vq-bet
+

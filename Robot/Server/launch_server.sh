@@ -11,4 +11,4 @@ sudo fuser -k 4242/tcp
 
 # Running Server
 echo "Starting the Server..."
-python /home/franka/Desktop/franka_stack/Server/server.py
+python /home/franka/Desktop/capstone_stack/Server/server.py

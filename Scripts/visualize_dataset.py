@@ -5,7 +5,7 @@ from torch.utils.data import DataLoader
 from dataset import FrankaDataset  # Assuming the dataset is defined in dataloader.py
 
 # Parameters
-data_folder = "/home/franka/Desktop/franka_stack/sample_data"
+data_folder = "/home/franka/Desktop/capstone_stack/sample_data"
 sequence_length = 10
 step_size = 2
 batch_size = 8

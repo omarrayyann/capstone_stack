@@ -1,0 +1,23 @@
+2025-01-14 04:40:35,089 INFO    MainThread:2858995 [wandb_setup.py:_flush():68] Current SDK version is 0.19.3
+2025-01-14 04:40:35,089 INFO    MainThread:2858995 [wandb_setup.py:_flush():68] Configure stats pid to 2858995
+2025-01-14 04:40:35,089 INFO    MainThread:2858995 [wandb_setup.py:_flush():68] Loading settings from /home/franka/.config/wandb/settings
+2025-01-14 04:40:35,089 INFO    MainThread:2858995 [wandb_setup.py:_flush():68] Loading settings from /home/franka/Desktop/capstone_stack/VQ-BeT/wandb/settings
+2025-01-14 04:40:35,089 INFO    MainThread:2858995 [wandb_setup.py:_flush():68] Loading settings from environment variables
+2025-01-14 04:40:35,089 INFO    MainThread:2858995 [wandb_init.py:_log_setup():598] Logging user logs to /home/franka/Desktop/capstone_stack/VQ-BeT/wandb/run-20250114_044035-fzew309f/logs/debug.log
+2025-01-14 04:40:35,089 INFO    MainThread:2858995 [wandb_init.py:_log_setup():599] Logging internal logs to /home/franka/Desktop/capstone_stack/VQ-BeT/wandb/run-20250114_044035-fzew309f/logs/debug-internal.log
+2025-01-14 04:40:35,089 INFO    MainThread:2858995 [wandb_init.py:init():714] calling init triggers
+2025-01-14 04:40:35,089 INFO    MainThread:2858995 [wandb_init.py:init():719] wandb.init called with sweep_config: {}
+config: {'save_path': '/home/franka/Desktop/capstone_stack/VQ-BeT/saved', 'device': 'cpu', 'train': {'batch_size': 32, 'epochs': 1000, 'save_interval': 1}, 'split_dataset': {'_target_': 'dataset.split_dataset', 'train_split': 0.95}, 'vqvae': {'_target_': 'vqvae.vqvae.VqVae', 'obs_dim': 1024, 'input_dim_h': 5, 'input_dim_w': 8, 'n_latent_dims': 512, 'vqvae_n_embed': 32, 'vqvae_groups': 4, 'eval': True, 'device': 'cpu', 'load_dir': None, 'encoder_loss_multiplier': 1.0, 'act_scale': 1.0}, 'dataset': {'_target_': 'dataset.FrankaDataset', 'data_folder': '/home/franka/Desktop/capstone_stack/Data/sample_data', 'sequence_length': 5, 'step_size': 2, 'frequency': 5}, 'wandb': {'project': 'VQ-BeT', 'run_name': 'vqvae_training_run'}}
+2025-01-14 04:40:35,089 INFO    MainThread:2858995 [wandb_init.py:init():745] starting backend
+2025-01-14 04:40:35,307 INFO    MainThread:2858995 [wandb_init.py:init():749] sending inform_init request
+2025-01-14 04:40:35,320 INFO    MainThread:2858995 [backend.py:_multiprocessing_setup():104] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2025-01-14 04:40:35,320 INFO    MainThread:2858995 [wandb_init.py:init():764] backend started and connected
+2025-01-14 04:40:35,323 INFO    MainThread:2858995 [wandb_init.py:init():857] updated telemetry
+2025-01-14 04:40:35,335 INFO    MainThread:2858995 [wandb_init.py:init():889] communicating run to backend with 90.0 second timeout
+2025-01-14 04:40:35,820 INFO    MainThread:2858995 [wandb_init.py:init():941] starting run threads in backend
+2025-01-14 04:40:35,922 INFO    MainThread:2858995 [wandb_run.py:_console_start():2420] atexit reg
+2025-01-14 04:40:35,922 INFO    MainThread:2858995 [wandb_run.py:_redirect():2270] redirect: wrap_raw
+2025-01-14 04:40:35,922 INFO    MainThread:2858995 [wandb_run.py:_redirect():2335] Wrapping output streams.
+2025-01-14 04:40:35,922 INFO    MainThread:2858995 [wandb_run.py:_redirect():2360] Redirects installed.
+2025-01-14 04:40:35,924 INFO    MainThread:2858995 [wandb_init.py:init():983] run started, returning control to user process
+2025-01-14 04:40:42,601 WARNING MsgRouterThr:2858995 [router.py:message_loop():75] message_loop has been closed

@@ -39,7 +39,7 @@ def save_episode(ep_rgb, ep_depth, ep_actions, ep_timestamps):
 
 
 
-save_folder = Path("/home/franka/Desktop/franka_stack/data")
+save_folder = Path("/home/franka/Desktop/capstone_stack/data")
 save_folder.mkdir(parents=True, exist_ok=True)
 
 
@@ -82,10 +82,10 @@ def recording_loop():
         while True:
             
             if episode_num > 0:  
-                playsound("/home/franka/Desktop/franka_stack/5seconds.mp3")
+                playsound("/home/franka/Desktop/capstone_stack/5seconds.mp3")
             else:
                 time.sleep(10)
-                playsound("/home/franka/Desktop/franka_stack/5seconds.mp3")
+                playsound("/home/franka/Desktop/capstone_stack/5seconds.mp3")
             print(f"Episode {episode_num} started.")
 
             
