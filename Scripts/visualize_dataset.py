@@ -5,13 +5,13 @@ from torch.utils.data import DataLoader
 from dataset import FrankaDataset  # Assuming the dataset is defined in dataloader.py
 
 # Parameters
-data_folder = "/home/franka/Desktop/capstone_stack/sample_data"
-sequence_length = 10
+data_folder = "/home/franka/Desktop/capstone_stack/Data/sample_data"
+sequence_length = 5
 step_size = 2
 batch_size = 8
 
 # Initialize the dataset and dataloader
-dataset = FrankaDataset(data_folder, sequence_length=sequence_length, step_size=step_size, frequency=5)
+dataset = FrankaDataset(data_folder, sequence_length=sequence_length, step_size=step_size, frequency=1)
 dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
 # Fetch one batch

@@ -1,4 +1,4 @@
-from Camera.RealSense import RealSense
+from RealSense import RealSense
 import time 
 import cv2
 

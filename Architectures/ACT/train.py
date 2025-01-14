@@ -119,16 +119,6 @@ def eval_bc(config, ckpt_name, save_episode=True):
     pre_process = lambda s_qpos: (s_qpos - stats['qpos_mean']) / stats['qpos_std']
     post_process = lambda a: a * stats['action_std'] + stats['action_mean']
 
-    # load environment
-    if real_robot:
-        from aloha_scripts.robot_utils import move_grippers # requires aloha
-        from aloha_scripts.real_env import make_real_env # requires aloha
-        env = make_real_env(init_node=True)
-        env_max_reward = 0
-    else:
-        from sim_env import make_sim_env
-        env = make_sim_env(task_name)
-        env_max_reward = env.task.max_reward
 
     query_frequency = policy_config['num_queries']
     if temporal_agg:

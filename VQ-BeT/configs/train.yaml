@@ -1,0 +1,75 @@
+
+seed: 42
+window_size: 5
+goal_window_size: 0
+eval_window_size: 0
+batch_size: 32
+epochs: 1000
+num_workers: 0
+eval_freq: 1
+eval_on_env_freq: 20
+num_env_evals: 20
+num_final_evals: 20
+num_final_eval_per_goal: 5
+action_window_size: 1
+sequentially_select: false
+vqvae_load_dir: "/home/franka/Desktop/capstone_stack/VQ-BeT/saved/trained_vqvae.pt"
+goal_dim: 0
+
+wandb:
+  project: "VQ-BeT"
+  run_name: "vqbet_training_run"
+device: cpu
+optim:
+  lr: 5.5e-5
+  weight_decay: 2e-4
+  betas: [0.9, 0.999]
+
+dataset:
+  _target_: "dataset.FrankaDataset"
+  data_folder: "/home/franka/Desktop/capstone_stack/Data/sample_data"
+  sequence_length: 5
+  step_size: 2
+  frequency: 5
+
+save_every: 1
+save_path: "/home/franka/Desktop/capstone_stack/VQ-BeT/saved"
+load_path: null
+
+split_dataset:
+  _target_: "dataset.split_dataset"
+  train_split: 0.95
+
+
+model:
+  _target_: vq_behavior_transformer.BehaviorTransformer
+  obs_dim: 1536
+  act_dim: 8
+  goal_dim: 0
+  obs_window_size: ${window_size}
+  act_window_size: ${action_window_size}
+  sequentially_select: ${sequentially_select}
+  gpt_model:
+    _target_: vq_behavior_transformer.GPT
+    config:
+      _target_: vq_behavior_transformer.GPTConfig
+      block_size: 110
+      input_dim: 1536
+      n_layer: 12
+      n_head: 12
+      n_embd: 516
+  vqvae_model:
+    _target_: vqvae.VqVae
+    obs_dim: 1536
+    input_dim_h: 1
+    input_dim_w: 8
+    n_latent_dims: 512
+    vqvae_n_embed: 24
+    vqvae_groups: 4
+    eval: true
+    device: ${device}
+    load_dir: ${vqvae_load_dir}
+  offset_loss_multiplier: 100.0
+  secondary_code_multiplier: 0.5
+  visual_input: true
+  finetune_resnet: true
