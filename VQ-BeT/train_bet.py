@@ -33,7 +33,7 @@ def main(cfg):
 
     if "visual_input" in cfg and cfg.visual_input:
         print("use visual environment")
-        cfg.model.gpt_model.config.input_dim = 1024
+        cfg.model.gpt_model.config.input_dim = 1536
     cbet_model = hydra.utils.instantiate(cfg.model).to(cfg.device)
     if torch.cuda.device_count() > 1:
         print(f"Using {torch.cuda.device_count()} GPUs with DataParallel.")
@@ -70,7 +70,7 @@ def main(cfg):
     save_path = Path(cfg.save_path)
 
 
-    for epoch in tqdm.trange(cfg.epochs):
+    for epoch in tqdm.trange(170, cfg.epochs):
         cbet_model.eval()
         if epoch % cfg.eval_freq == 0:
             total_loss = 0
@@ -81,17 +81,16 @@ def main(cfg):
             action_diff_max = 0
             with torch.no_grad():
                 for data in val_loader:
-                    act = data["action"].to(cfg.device)[:,-1,:].reshape(-1, 1, 8)
-                    print(act.shape)
-
+                    act = data["action"].to(cfg.device)
                     rgb = data["rgb"].to(cfg.device)
                     depth = data["depth"].to(cfg.device)
+                    low_dim_obs = data["low_dim_obs"].to(cfg.device)
 
                     goal = None
                     if multi_gpu:
-                        predicted_act, loss, loss_dict = cbet_model.module(rgb, depth, goal, act)
+                        predicted_act, loss, loss_dict = cbet_model.module(rgb, depth, low_dim_obs, goal, act)
                     else:
-                        predicted_act, loss, loss_dict = cbet_model(rgb, depth, goal, act)
+                        predicted_act, loss, loss_dict = cbet_model(rgb, depth, low_dim_obs, goal, act)
                     total_loss += loss.item()
                     wandb.log({"eval/{}".format(x): y for (x, y) in loss_dict.items()})
                     action_diff += loss_dict["action_diff"]
@@ -116,11 +115,12 @@ def main(cfg):
             act = data["action"].to(cfg.device)
             rgb = data["rgb"].to(cfg.device)
             depth = data["depth"].to(cfg.device)
+            low_dim_obs = data["low_dim_obs"].to(cfg.device)
             goal = None
             if multi_gpu:
-                predicted_act, loss, loss_dict = cbet_model.module(rgb, depth, goal, act)
+                predicted_act, loss, loss_dict = cbet_model.module(rgb, depth, low_dim_obs, goal, act)
             else:
-                predicted_act, loss, loss_dict = cbet_model(rgb, depth, goal, act)
+                predicted_act, loss, loss_dict = cbet_model(rgb, depth, low_dim_obs, goal, act)
             wandb.log({"train/{}".format(x): y for (x, y) in loss_dict.items()})
             loss.backward()
             # if epoch < (cfg.epochs * 0.5):
@@ -136,6 +136,5 @@ def main(cfg):
                 cbet_model.module.save_model(save_path)
             else:
                 cbet_model.save_model(save_path)
-
 if __name__ == "__main__":
     main()

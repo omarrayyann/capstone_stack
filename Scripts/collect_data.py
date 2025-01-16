@@ -4,8 +4,8 @@ import time
 from pathlib import Path
 from scipy.spatial.transform import Rotation as R
 from playsound import playsound
-from Client.FrankaClient import FrankaClient
-from Camera.RealSense import RealSense
+from FrankaClient import FrankaClient
+from RealSense import RealSense
 import threading
 from flask import Flask, request, jsonify
 from loop_rate_limiters import RateLimiter
@@ -39,7 +39,7 @@ def save_episode(ep_rgb, ep_depth, ep_actions, ep_timestamps):
 
 
 
-save_folder = Path("/home/franka/Desktop/capstone_stack/data")
+save_folder = Path("/home/franka/Desktop/capstone_stack/Data/data")
 save_folder.mkdir(parents=True, exist_ok=True)
 
 
@@ -82,10 +82,10 @@ def recording_loop():
         while True:
             
             if episode_num > 0:  
-                playsound("/home/franka/Desktop/capstone_stack/5seconds.mp3")
+                playsound("/home/franka/Desktop/capstone_stack/Scripts/sounds/5seconds.mp3")
             else:
                 time.sleep(10)
-                playsound("/home/franka/Desktop/capstone_stack/5seconds.mp3")
+                playsound("/home/franka/Desktop/capstone_stack/Scripts/sounds/10seconds.mp3")
             print(f"Episode {episode_num} started.")
 
             

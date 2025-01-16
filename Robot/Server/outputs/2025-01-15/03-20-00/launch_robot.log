@@ -100,3 +100,4 @@ safety_controller:
     joint_vel: 20.0
 
 [2025-01-15 03:20:01,768][polymetis.robot_client.executable_robot_client][INFO] - === Executing client at /home/franka/Desktop/fairo/polymetis/polymetis/build/franka_panda_client ===
+[2025-01-15 04:26:29,451][__main__][INFO] - Using sudo to kill subprocess with pid 2991431, pgid 2991431...

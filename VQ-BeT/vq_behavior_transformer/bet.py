@@ -144,15 +144,17 @@ class BehaviorTransformer(nn.Module):
         self,
         rgb_seq: torch.Tensor,
         depth_seq: torch.Tensor,
+        low_dim_obs: torch.Tensor,
         goal_seq: Optional[torch.Tensor],
         action_seq: Optional[torch.Tensor],
     ) -> Tuple[Optional[torch.Tensor], Optional[torch.Tensor]]:
-        return self._predict(rgb_seq, depth_seq, goal_seq, action_seq)
+        return self._predict(rgb_seq, depth_seq, low_dim_obs, goal_seq, action_seq)
 
     def _predict(
         self,
         rgb_seq: torch.Tensor,
         depth_seq: torch.Tensor,
+        low_dim_obs: torch.Tensor,
         goal_seq: Optional[torch.Tensor],
         action_seq: Optional[torch.Tensor],
     ) -> Tuple[Optional[torch.Tensor], Optional[torch.Tensor], Dict[str, float]]:
@@ -223,8 +225,9 @@ class BehaviorTransformer(nn.Module):
             depth_seq = torch.squeeze(torch.squeeze(self._depth_processing(depth_seq), -1), -1)
 
         # add depth seq to obs seq
-      
-        obs_seq = torch.cat([obs_seq, depth_seq], dim=-1) # 1536
+        print(low_dim_obs.shape)
+        print(obs_seq.shape)
+        obs_seq = torch.cat([obs_seq, depth_seq, low_dim_obs], dim=-1) # 1544
 
         if self._cbet_method == self.GOAL_SPEC.unconditional:
             gpt_input = obs_seq

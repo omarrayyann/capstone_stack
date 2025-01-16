@@ -50,7 +50,25 @@ class FrankaInterface:
         return self.gripper.get_state().width
     
     def set_gripper_width(self, width):
+        # self.gripper.grasp(
+        # speed=0.3,
+        # force=2,
+        # grasp_width=width,
+        # epsilon_inner=0.05,
+        # epsilon_outer=0.05,
+        # blocking=False,
+        # )
+
         self.gripper.goto(width=width, speed=0.3, force=10, blocking=False)
+
+    def get_joint_angles(self):
+        return self.robot.get_joint_positions().numpy().tolist()
+
+    def move_to_joint_positions(self, positions, time_to_go):
+        self.robot.move_to_joint_positions(
+            positions=torch.Tensor(positions),
+            time_to_go=time_to_go
+        )
 
 
 # Get all network interfaces
