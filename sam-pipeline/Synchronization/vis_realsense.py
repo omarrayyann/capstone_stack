@@ -11,7 +11,7 @@ def visualize_npy(rgb_file, timestamp_file):
 
     
     rgb_frames = np.load(rgb_file)
-    timestamps = np.load(timestamp_file)/1000.0
+    timestamps = np.load(timestamp_file)
 
     if len(rgb_frames) != len(timestamps):
         print("Error: Number of frames and timestamps do not match.")
@@ -52,7 +52,7 @@ def visualize_npy(rgb_file, timestamp_file):
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    index = 4
-    rgb_file = f"/home/lambda1/Documents/sam-pipeline/Synchronization/data/realsense/rgbs_{index}.npy"
-    timestamp_file = f"/home/lambda1/Documents/sam-pipeline/Synchronization/data/realsense/timestamps_{index}.npy"
+    index = 8
+    rgb_file = f"/home/lambda1/Documents/GitHub/capstone_stack/sam-pipeline/Synchronization/data/realsense/rgbs_{index}.npy"
+    timestamp_file = f"/home/lambda1/Documents/GitHub/capstone_stack/sam-pipeline/Synchronization/data/realsense/timestamps_{index}.npy"
     visualize_npy(rgb_file, timestamp_file)

@@ -168,8 +168,8 @@ def visualize_synced(gopro_video, realsense_rgb_file, realsense_timestamp_file):
 
 
 if __name__ == "__main__":
-    index = 4
-    gopro_video = f"/home/lambda1/Documents/sam-pipeline/Synchronization/data/gopro/{index}.mp4"
-    realsense_rgb_file = f"/home/lambda1/Documents/sam-pipeline/Synchronization/data/realsense/rgbs_{index}.npy"
-    realsense_timestamp_file = f"/home/lambda1/Documents/sam-pipeline/Synchronization/data/realsense/timestamps_{index}.npy"
+    index = 5
+    gopro_video = f"/home/lambda1/Documents/GitHub/capstone_stack/sam-pipeline/Synchronization/data/gopro/{index}.mp4"
+    realsense_rgb_file = f"/home/lambda1/Documents/GitHub/capstone_stack/sam-pipeline/Synchronization/data/realsense/rgbs_{index}.npy"
+    realsense_timestamp_file = f"/home/lambda1/Documents/GitHub/capstone_stack/sam-pipeline/Synchronization/data/realsense/timestamps_{index}.npy"
     visualize_synced(gopro_video, realsense_rgb_file, realsense_timestamp_file)

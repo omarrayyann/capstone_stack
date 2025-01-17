@@ -4,7 +4,7 @@ import numpy as np
 import cv2
 from Camera.RealSense import RealSense
 
-FOLDER_PATH = "/home/lambda1/Documents/sam-pipeline/data/realsense"
+FOLDER_PATH = "/home/lambda1/Documents/GitHub/capstone_stack/sam-pipeline/Synchronization/data/realsense"
 
 def get_next_index(prefix):
     """Find the next available index for the file prefix."""
@@ -27,11 +27,12 @@ if __name__ == "__main__":
             if color_image is not None:
                 
                 rgb_frames.append(color_image)
-                timestamps.append(timestamp)
+                timestamps.append(time.time())
 
                 
                 cv2.imshow('RGB Stream', cv2.cvtColor(color_image, cv2.COLOR_RGB2BGR))
-
+            print("Fps: ", 1 / (time.time() - start_time))
+            start_time = time.time()
             
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break

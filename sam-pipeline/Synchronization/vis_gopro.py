@@ -94,6 +94,6 @@ def visualize_mp4(video_file):
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    index = 4
-    video_file = f"/home/lambda1/Documents/sam-pipeline/Synchronization/data/gopro/{index}.mp4"
+    index = 8
+    video_file = f"/home/lambda1/Documents/GitHub/capstone_stack/sam-pipeline/Synchronization/data/gopro/{index}.mp4"
     visualize_mp4(video_file)
